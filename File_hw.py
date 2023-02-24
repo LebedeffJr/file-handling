@@ -18,7 +18,21 @@ def menu_sort(file):
 
             cook_book[dish_name] = ingredients
             f.readline()
-        pprint(cook_book, sort_dicts=False, width=100)
+        return cook_book
 
-menu_sort('recipes.txt')
+pprint(menu_sort('recipes.txt'), sort_dicts=False, width=100)
 
+
+def get_shop_list_by_dishes(dishes, person_count):
+    cook_book = menu_sort('recipes.txt')
+    ingredients_count = {}
+    for dish in dishes:
+        if dish in cook_book:
+            for all_ingredients in cook_book[dish]:
+                if all_ingredients['ingredient_name'] not in ingredients_count:
+                    ingredients_count[all_ingredients['ingredient_name']] = {'measure':all_ingredients['measure'], 'quantity': int(all_ingredients['quantity']) * person_count}
+                else:
+                    ingredients_count[all_ingredients['ingredient_name']]['quantity'] += int(all_ingredients['quantity']) * person_count
+    pprint(ingredients_count)
+
+get_shop_list_by_dishes(['Омлет','Фахитос'], 2)
